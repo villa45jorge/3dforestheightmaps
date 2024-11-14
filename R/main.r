@@ -1,6 +1,6 @@
 #############################################
 # 3D forest height with R
-# Milos Popovic 2023/07/18
+# Jorge Villa 2024/11/14
 #############################################
 
 libs <- c(
@@ -28,11 +28,9 @@ invisible(lapply(
 #---------------------
 
 urls <- c(
-    "https://libdrive.ethz.ch/index.php/s/cO8or7iOe5dT2Rt/download?path=%2F3deg_cogs&files=ETH_GlobalCanopyHeight_10m_2020_N42W009_Map.tif",
-    "https://libdrive.ethz.ch/index.php/s/cO8or7iOe5dT2Rt/download?path=%2F3deg_cogs&files=ETH_GlobalCanopyHeight_10m_2020_N39W012_Map.tif",
-    "https://libdrive.ethz.ch/index.php/s/cO8or7iOe5dT2Rt/download?path=%2F3deg_cogs&files=ETH_GlobalCanopyHeight_10m_2020_N39W009_Map.tif",
-    "https://libdrive.ethz.ch/index.php/s/cO8or7iOe5dT2Rt/download?path=%2F3deg_cogs&files=ETH_GlobalCanopyHeight_10m_2020_N36W012_Map.tif",
-    "https://libdrive.ethz.ch/index.php/s/cO8or7iOe5dT2Rt/download?path=%2F3deg_cogs&files=ETH_GlobalCanopyHeight_10m_2020_N36W009_Map.tif"
+  "https://libdrive.ethz.ch/index.php/s/cO8or7iOe5dT2Rt/download?path=%2F3deg_cogs&files=ETH_GlobalCanopyHeight_10m_2020_S15W075_Map.tif",
+  "https://libdrive.ethz.ch/index.php/s/cO8or7iOe5dT2Rt/download?path=%2F3deg_cogs&files=ETH_GlobalCanopyHeight_10m_2020_S15W078_Map.tif",
+  "https://libdrive.ethz.ch/index.php/s/cO8or7iOe5dT2Rt/download?path=%2F3deg_cogs&files=ETH_GlobalCanopyHeight_10m_2020_S18W075_Map.tif"
 )
 
 for (url in urls) {
@@ -42,6 +40,8 @@ for (url in urls) {
         mode = "wb"
     )
 }
+
+setwd("C:/Users/Jorge/Desktop/Portofolio/3Dforestheightmaps")
 
 raster_files <-
     list.files(
@@ -56,7 +56,7 @@ raster_files <-
 get_country_borders <- function() {
     main_path <- getwd()
     country_borders <- geodata::gadm(
-        country = "PRT",
+        country = "PER",
         level = 1,
         path = main_path
     ) |>
@@ -70,17 +70,14 @@ unique(
     country_borders$NAME_1
 )
 
-portugal_sf <- country_borders |>
+Ayacucho_sf <- country_borders |>
     dplyr::filter(
-        !NAME_1 %in% c(
-            "Azores",
-            "Madeira"
-        )
-    ) |>
-    sf::st_union()
+        NAME_1 == "Ayacucho"
+    ) #|>
+    #sf::st_union()
 
 plot(sf::st_geometry(
-    portugal_sf
+  Ayacucho_sf
 ))
 
 # 3. LOAD FOREST HEIGHT
