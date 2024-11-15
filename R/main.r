@@ -94,7 +94,7 @@ forest_height_rasters <- lapply(
         terra::crop(
             x,
             terra::vect(
-                portugal_sf
+              Ayacucho_sf
             ),
             snap = "in",
             mask = T
@@ -107,7 +107,7 @@ forest_height_mosaic <- do.call(
     forest_height_rasters
 )
 
-forest_height_portugal <- forest_height_mosaic |>
+forest_height_ayacucho <- forest_height_mosaic |>
     terra::aggregate(
         fact = 10
     )
@@ -115,13 +115,15 @@ forest_height_portugal <- forest_height_mosaic |>
 # 4. RASTER TO DATAFRAME
 #-----------------------
 
-forest_height_portugal_df <- forest_height_portugal |>
+forest_height_ayacucho_df <- forest_height_ayacucho |>
     as.data.frame(
         xy = T
     )
 
-head(forest_height_portugal_df)
-names(forest_height_portugal_df)[3] <- "height"
+head(forest_height_ayacucho_df)
+names(forest_height_ayacucho_df)[3] <- "height"
+
+write.table(forest_height_ayacucho_df, "fh.csv")
 
 # 5. BREAKS
 #----------
