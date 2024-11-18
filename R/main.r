@@ -112,6 +112,9 @@ forest_height_ayacucho <- forest_height_mosaic |>
         fact = 10
     )
 
+writeRaster(forest_height_ayacucho, "forest_height_ayacucho.tif", overwrite=TRUE)
+
+
 # 4. RASTER TO DATAFRAME
 #-----------------------
 
@@ -124,12 +127,13 @@ head(forest_height_ayacucho_df)
 names(forest_height_ayacucho_df)[3] <- "height"
 
 write.table(forest_height_ayacucho_df, "fh.csv")
+forest_height_ayacucho_df <- read.csv("C:/Users/Jorge/Desktop/Portofolio/3Dforestheightmaps/fh.csv", sep="")
 
 # 5. BREAKS
 #----------
 
 breaks <- classInt::classIntervals(
-    forest_height_portugal_df$height,
+    forest_height_ayacucho_df$height,
     n = 5,
     style = "fisher"
 )$brks
@@ -152,7 +156,7 @@ texture <- colorRampPalette(
 #-----------
 
 p <- ggplot(
-    forest_height_portugal_df
+    forest_height_ayacucho_df
 ) +
 geom_raster(
     aes(
@@ -217,24 +221,26 @@ theme(
     )
 )
 
+p
+
 # 8. RENDER SCENE
 #----------------
 
-h <- nrow(forest_height_portugal)
-w <- ncol(forest_height_portugal)
+h <- nrow(forest_height_ayacucho)
+w <- ncol(forest_height_ayacucho)
 
 rayshader::plot_gg(
     ggobj = p,
     width = w / 1000,
     height = h / 1000,
-    scale = 150,
+    scale = 100,
     solid = F,
     soliddepth = 0,
     shadow = T,
     shadow_intensity = .99,
     offset_edges = F,
     sunangle = 315,
-    window.size = c(800, 800),
+    #window.size = c(800, 800),
     zoom = .4,
     phi = 30,
     theta = -30,
@@ -251,7 +257,7 @@ rayshader::render_camera(
 #-----------------
 
 rayshader::render_highquality(
-    filename = "portugal-forest-height-2020.png",
+    filename = "ayacucho-forest-height-2020.png",
     preview = T,
     interactive = F,
     light = T,
