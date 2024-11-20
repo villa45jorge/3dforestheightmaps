@@ -114,7 +114,7 @@ forest_height_ayacucho <- forest_height_mosaic |>
 
 writeRaster(forest_height_ayacucho, "forest_height_ayacucho.tif", overwrite=TRUE)
 
-
+forest_height_ayacucho<-rast("C:/Users/Jorge/Desktop/Portofolio/3Dforestheightmaps/forest_height_ayacucho.tif")
 # 4. RASTER TO DATAFRAME
 #-----------------------
 
@@ -231,9 +231,9 @@ w <- ncol(forest_height_ayacucho)
 
 rayshader::plot_gg(
     ggobj = p,
-    width = w / 1000,
-    height = h / 1000,
-    scale = 100,
+    width = w / 500,
+    height = h / 500,
+    scale = 75,
     solid = F,
     soliddepth = 0,
     shadow = T,
@@ -257,7 +257,8 @@ rayshader::render_camera(
 #-----------------
 
 rayshader::render_highquality(
-    filename = "ayacucho-forest-height-2020.png",
+    samples=100,
+    filename = "ayacucho-forest-height-2020_V2.png",
     preview = T,
     interactive = F,
     light = T,
@@ -274,6 +275,6 @@ rayshader::render_highquality(
     rayrender::microfacet(
         roughness = .6
     ),
-    width = 4000,
-    height = 4000
+    width = 2000,
+    height = 2000
 )
