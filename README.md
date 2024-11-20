@@ -7,3 +7,5 @@ This projet is based in the tutorial of Popovic (2023/2024) 3D maps of forest ca
 
 
 ![alt text](https://github.com/villa45jorge/3dforestheightmaps/blob/4c91891a1ad7c4b3cb9c6b75d7a4c854a490296f/2d_map.png)
+
+![alt text](https://github.com/villa45jorge/3dforestheightmaps/blob/4c91891a1ad7c4b3cb9c6b75d7a4c854a490296f/3d_map.png)
