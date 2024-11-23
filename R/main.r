@@ -5,7 +5,7 @@
 
 libs <- c(
     "tidyverse", "sf", "geodata",
-    "terra", "classInt", "rayshader"
+    "terra", "classInt", "rayshader","ggspatial"
 )
 
 installed_libs <- libs %in% rownames(
@@ -154,24 +154,16 @@ texture <- colorRampPalette(
 
 # 7. GGPLOT2
 #-----------
+#proj <- "EPSG:4668"
 
-p <- ggplot(
-    forest_height_ayacucho_df
-) +
-geom_raster(
-    aes(
-        x = x,
-        y = y,
-        fill = height
-    )
-) +
-scale_fill_gradientn(
+p <- ggplot(forest_height_ayacucho_df) +
+  geom_raster(aes(x = x, y = y, fill = height)) +
+  scale_fill_gradientn(
     name = "height (m)",
     colors = texture,
-    breaks = round(breaks, 0)
-) +
-coord_sf(crs = 4326) +
-guides(
+    breaks = round(breaks, 0)) +
+  coord_sf(crs = 4326) +
+  guides(
     fill = guide_legend(
         direction = "vertical",
         keyheight = unit(5, "mm"),
@@ -181,11 +173,24 @@ guides(
         title.hjust = .5,
         label.hjust = .5,
         ncol = 1,
-        byrow = F
-    )
-) +
-theme_minimal() +
-theme(
+        byrow = F)) +
+  annotation_scale(
+    #location = "bl", 
+    #height = .15,
+    pad_x = unit(.5, "cm"),
+    pad_y = unit(.5, "cm")) +
+  annotation_north_arrow(
+    location = "tr",
+    style = north_arrow_fancy_orienteering,
+    pad_x = unit(.5, "cm"),
+    pad_y = unit(.5, "cm")) +
+  #coord_sf(crs = proj) +
+  labs(
+    title = "Forest Cover | Ayacucho (Péru)",
+    caption = "©2024 Jorge Villa\nData: ©ETH Global Canopy Height dataset at 10 m"
+  ) +
+  theme_minimal() +
+  theme(
     axis.line = element_blank(),
     axis.title.x = element_blank(),
     axis.title.y = element_blank(),
@@ -193,33 +198,24 @@ theme(
     axis.text.y = element_blank(),
     legend.position = "right",
     legend.title = element_text(
-        size = 11, color = "grey10"
-    ),
+        size = 11, color = "grey10"),
     legend.text = element_text(
-        size = 10, color = "grey10"
-    ),
+        size = 10, color = "grey10"),
     panel.grid.major = element_line(
-        color = "white"
-    ),
+        color = "white"),
      panel.grid.minor = element_line(
-        color = "white"
-    ),
+        color = "white"),
     plot.background = element_rect(
-        fill = "white", color = NA
-    ),
+        fill = "white", color = NA),
     legend.background = element_rect(
-        fill = "white", color = NA
-    ),
+        fill = "white", color = NA),
     panel.border = element_rect(
-        fill = NA, color = "white"
-    ),
+        fill = NA, color = "white"),
     plot.margin = unit(
         c(
             t = 0, r = 0,
             b = 0, l = 0
-        ), "lines"
-    )
-)
+        ), "lines"))
 
 p
 
